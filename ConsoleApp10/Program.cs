@@ -159,6 +159,12 @@ public class Node
                 PlotHelper(node.Left, level + 1);
             }
         }
+        public void Sort()
+        {
+            List<int> sortedValues = new List<int>();
+            InOrderTraversal(Root, sortedValues);
+            Console.WriteLine("Sorted values: " + string.Join(", ", sortedValues));
+        }
     }
 
     public class BinaryHeap
@@ -206,7 +212,7 @@ public class Node
 
           //  bst.Plot();
 
-         BinaryHeap heap = new BinaryHeap();
+        //  BinaryHeap heap = new BinaryHeap();
             int[] heapValues = {  24,15,12,23,1,10,16,67};
 
             foreach (int value in heapValues)
@@ -225,7 +231,8 @@ public class Node
             Console.WriteLine();
             Console.WriteLine();
 
-            bst.Balance();
+         //   bst.Balance();
+         //   bst.Sort();
             bst.Plot();
 
             Console.WriteLine();
@@ -235,9 +242,11 @@ public class Node
             Console.WriteLine();
             bst.Delete(9);
             bst.Delete(6);
-            bst.Delete(2);
-            bst.Delete(1);
+            //bst.Delete(2);
+            //bst.Delete(1);
             bst.Balance();
+           // bst.Sort();
+
             bst.Plot();
             //bst = heap;
             //heap.Plot();
