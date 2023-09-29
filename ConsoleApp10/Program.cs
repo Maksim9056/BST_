@@ -6,7 +6,7 @@ namespace ConsoleApp10
 
 
 
-public class Node
+    public class Node
     {
         public int Value;
         public Node Left;
@@ -167,32 +167,32 @@ public class Node
         }
     }
 
-    public class BinaryHeap
-    {
-        private List<int> heap;
+    //public class BinaryHeap
+    //{
+    //    private List<int> heap;
 
-        public BinaryHeap()
-        {
-            heap = new List<int>();
-        }
+    //    public BinaryHeap()
+    //    {
+    //        heap = new List<int>();
+    //    }
 
-        public void Insert(int value)
-        {
-            heap.Add(value);
-            BubbleUp(heap.Count - 1);
-        }
+    //    public void Insert(int value)
+    //    {
+    //        heap.Add(value);
+    //        BubbleUp(heap.Count - 1);
+    //    }
 
-        private void BubbleUp(int index)
-        {
-            int parentIndex = (index - 1) / 2;
-            if (index > 0 && heap[index] > heap[parentIndex])
-            {
-          //      Swap(index, parentIndex);
-                BubbleUp(parentIndex);
-            }
-        }
+    //    private void BubbleUp(int index)
+    //    {
+    //        int parentIndex = (index - 1) / 2;
+    //        if (index > 0 && heap[index] > heap[parentIndex])
+    //        {
+    //      //      Swap(index, parentIndex);
+    //            BubbleUp(parentIndex);
+    //        }
+    //    }
 
-    }
+    //}
     class Program
     {
         static void Main(string[] args)
@@ -253,16 +253,4 @@ public class Node
             Console.ReadLine();
         }
     }
-        //```
-
-        //В этом примере реализованы классы `Node`, `BinarySearchTree` и `BinaryHeap`, а также основная программа, которая демонстрирует использование функций для работы с бинарными деревьями поиска и бинарными кучами.
-
-        //В классе `BinarySearchTree` реализованы методы `Insert()`, `Search()`, `Delete()`, `Balance()` и `Plot()` для вставки, поиска, удаления, балансировки и визуализации бинарного дерева поиска.
-
-        //В классе `BinaryHeap` реализованы методы `Insert()`, `ExtractMax()`, `Sort()` и `Plot()` для вставки, извлечения максимального значения, сортировки и визуализации бинарной кучи.
-
-        //А в методе `Main()` создаются объекты `BinarySearchTree` и `BinaryHeap`, а также вызываются их методы для выполнения операций и визуализации.
-
-        //Этот код на C# эквивалентен коду на Python и выполняет аналогичные операции с бинарными деревьями поиска и бинарными кучами.
-
-    }
+}
