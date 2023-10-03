@@ -71,39 +71,52 @@ namespace ConsoleApp10
 
         public void Delete(int value)
         {
-            Root = DeleteHelper(Root, value);
+            Root = DeleteRecursive(Root, value);
         }
 
-        private Node DeleteHelper(Node root, int value)
+
+        private Node DeleteRecursive(Node current, int value)
         {
-            if (root == null)
+            if (current == null)
             {
-                return root;
+                return null;
             }
-            if (value < root.Value)
+            if (value == current.Value)
             {
-                root.Left = DeleteHelper(root.Left, value);
-            }
-            else if (value > root.Value)
-            {
-                root.Right = DeleteHelper(root.Right, value);
-            }
-            else
-            {
-                if (root.Left == null)
+                // Case 1: no children
+                if (current.Left == null && current.Right == null)
                 {
-                    return root.Right;
+                    return null;
                 }
-                else if (root.Right == null)
+                // Case 2: only 1 child; 5 -- 7 -- 6 ==> 5 -- 6
+                if (current.Right == null)
                 {
-                    return root.Left;
+                    return current.Left;
                 }
-                root.Value = FindMinValue(root.Right);
-                root.Right = DeleteHelper(root.Right, root.Value);
+                if (current.Left == null)
+                {
+                    return current.Right;
+                }
+                // Case 3: 2 children; 5 -- 7 -- 8     5 -- 8 -- 7     5 -- 8
+                //                        |      ==>      |      ==>      |
+                //                        6               6               6
+                int smallestValue = findSmallestValue(current.Right);
+                current.Value = smallestValue;
+                current.Right = DeleteRecursive(current.Right, smallestValue);
+                return current;
             }
-            return root;
+            if (value < current.Value)
+            {
+                current.Left = DeleteRecursive(current.Left, value);
+                return current;
+            }
+            current.Right = DeleteRecursive(current.Right, value);
+            return current;
         }
 
+        private int findSmallestValue(Node root)
+        { return root.Left == null ? root.Value : findSmallestValue(root.Left);
+        }
         private int FindMinValue(Node node)
         {
             int minValue = node.Value;
@@ -166,91 +179,186 @@ namespace ConsoleApp10
             Console.WriteLine("Sorted values: " + string.Join(", ", sortedValues));
         }
     }
-
-    //public class BinaryHeap
-    //{
-    //    private List<int> heap;
-
-    //    public BinaryHeap()
-    //    {
-    //        heap = new List<int>();
-    //    }
-
-    //    public void Insert(int value)
-    //    {
-    //        heap.Add(value);
-    //        BubbleUp(heap.Count - 1);
-    //    }
-
-    //    private void BubbleUp(int index)
-    //    {
-    //        int parentIndex = (index - 1) / 2;
-    //        if (index > 0 && heap[index] > heap[parentIndex])
-    //        {
-    //      //      Swap(index, parentIndex);
-    //            BubbleUp(parentIndex);
-    //        }
-    //    }
-
-    //}
     class Program
     {
         static void Main(string[] args)
         {
             BinarySearchTree bst = new BinarySearchTree();
-            int[] bstValues = { 5, 3, 7, 2, 4, 6, 8,9 };
-
+           // int[] bstValues = { 5, 3, 7, 2, 4, 6, 8,9 };
+           int[] bstValues = { 17, 6, 5, 20, 19, 18, 11, 14, 12, 13, 2, 4, 10 };  
+            Console.WriteLine("Добавление ");
             foreach (int value in bstValues)
             {
                 bst.Insert(value);
+           
             }
-
+            Console.WriteLine("BINARY"+bst);
             bst.Plot();
-
-            //bst.Delete(4);
-            //bst.Balance();
-
-          //  bst.Plot();
-
-        //  BinaryHeap heap = new BinaryHeap();
-            int[] heapValues = {  24,15,12,23,1,10,16,67};
-
-            foreach (int value in heapValues)
-            {
-                
-                bst.Insert(value);
-            }
-
+            Console.WriteLine("Балансировка");
             bst.Balance();
-          //  bst.Plot();
+            bst.Plot();
+            Console.WriteLine();
+            Console.WriteLine();
+            Console.WriteLine();
+            Console.WriteLine();
+            Console.WriteLine();
+            Console.WriteLine("Удаление 5");
             bst.Delete(5);
+            bst.Plot();
+            Console.WriteLine();
+            Console.WriteLine();
+            Console.WriteLine();
+            Console.WriteLine();
+            Console.WriteLine();
+            Console.WriteLine("Удаление 8");
             bst.Delete(8);
-            Console.WriteLine();
-            Console.WriteLine();
-            Console.WriteLine();
-            Console.WriteLine();
-            Console.WriteLine();
-
-         //   bst.Balance();
-         //   bst.Sort();
             bst.Plot();
-
             Console.WriteLine();
             Console.WriteLine();
             Console.WriteLine();
             Console.WriteLine();
             Console.WriteLine();
+            Console.WriteLine("Вывод");
+            Console.WriteLine();
+            Console.WriteLine();
+            Console.WriteLine();
+            Console.WriteLine();
+            Console.WriteLine();
+            Console.WriteLine("Удаление 9");
             bst.Delete(9);
-            bst.Delete(6);
-            //bst.Delete(2);
-            //bst.Delete(1);
-            bst.Balance();
-           // bst.Sort();
-
             bst.Plot();
-            //bst = heap;
-            //heap.Plot();
+            Console.WriteLine();
+            Console.WriteLine();
+            Console.WriteLine();
+            Console.WriteLine();
+            Console.WriteLine("Удаление 6");
+            bst.Delete(6);
+            bst.Plot();
+            Console.WriteLine("Балансировка");
+            bst.Balance();
+            bst.Plot();
+            Console.WriteLine();
+            Console.WriteLine();
+            Console.WriteLine();
+            Console.WriteLine("Вывод");
+            bst.Plot();
+            Console.WriteLine("Добавление AVLTree");
+
+            AVLTree avl = new AVLTree();
+             int[] bstValuesы = { 17, 6, 5, 20, 19, 18, 11, 14, 12, 13, 2, 4, 10 };
+
+            foreach (int value in bstValuesы)
+            {
+                avl.Insert(value);
+
+            }
+            Console.WriteLine("Вывод AVLTree");
+            avl.Plot();
             Console.ReadLine();
+        }
+    }
+    public class AVLNode
+    {
+        public int Key;
+        public AVLNode Left;
+        public AVLNode Right;
+        public int Height;
+        public AVLNode(int key)
+        {
+            Key = key;
+            Left = null;
+            Right = null;
+            Height = 1;
+        }
+    }
+    public class AVLTree
+    {
+        private AVLNode root;
+        public AVLTree()
+        {
+            root = null;
+        }
+        public void Insert(int key)
+        {
+            root = InsertHelper(root, key);
+        }
+        private AVLNode InsertHelper(AVLNode node, int key)
+        {
+            if (node == null)
+                return new AVLNode(key);
+            if (key < node.Key)
+                node.Left = InsertHelper(node.Left, key);
+            else
+                node.Right = InsertHelper(node.Right, key);
+            node.Height = 1 + Math.Max(GetHeight(node.Left), GetHeight(node.Right));
+            int balanceFactor = GetBalanceFactor(node);
+            if (balanceFactor > 1)
+            {
+                if (key < node.Left.Key)
+                    return RotateRight(node);
+                else
+                {
+                    node.Left = RotateLeft(node.Left);
+                    return RotateRight(node);
+                }
+            }
+            if (balanceFactor < -1)
+            {
+                if (key > node.Right.Key)
+                    return RotateLeft(node);
+                else
+                {
+                    node.Right = RotateRight(node.Right);
+                    return RotateLeft(node);
+                }
+            }
+            return node;
+        }
+        private int GetHeight(AVLNode node)
+        {
+            if (node == null)
+                return 0;
+            return node.Height;
+        }
+        private int GetBalanceFactor(AVLNode node)
+        {
+            if (node == null)
+                return 0;
+            return GetHeight(node.Left) - GetHeight(node.Right);
+        }
+        private AVLNode RotateLeft(AVLNode z)
+        {
+            AVLNode y = z.Right;
+            AVLNode T3 = y.Left;
+            y.Left = z;
+            z.Right = T3;
+            z.Height = 1 + Math.Max(GetHeight(z.Left), GetHeight(z.Right));
+            y.Height = 1 + Math.Max(GetHeight(y.Left), GetHeight(y.Right));
+            return y;
+        }
+        private AVLNode RotateRight(AVLNode z)
+        {
+            AVLNode y = z.Left;
+            AVLNode T2 = y.Right;
+            y.Right = z;
+            z.Left = T2;
+            z.Height = 1 + Math.Max(GetHeight(z.Left), GetHeight(z.Right));
+            y.Height = 1 + Math.Max(GetHeight(y.Left), GetHeight(y.Right));
+            return y;
+        }
+
+        public void Plot()
+        {
+            PlotHelper(root, 0);
+        }
+        private void PlotHelper(AVLNode node, int level)
+        {
+            if (node != null)
+            {
+                PlotHelper(node.Right, level + 1);
+                Console.WriteLine(new string(' ', level * 4) + node.Key);
+                PlotHelper(node.Left, level + 1);
+            }
         }
     }
 }
